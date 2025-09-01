@@ -72,7 +72,7 @@ const Sidebar = ({ modules }) => {
             )}
 
             {/* Desktop Sidebar */}
-            <nav className="hidden lg:flex flex-col h-full w-64 bg-white border-r border-gray-200 shadow-sm">
+            <nav className="hidden lg:flex flex-col fixed top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 shadow-sm z-30">
                 <div className="p-4 space-y-4 border-b border-gray-100">
                     <div className="h-10"><img src={logo} className='h-full w-full object-contain object-center' /></div>
                     <h1 className='capitalize text-gray-600 italic text-center'>Welcome {user.name === "" ? "admin" : user.name}!</h1>

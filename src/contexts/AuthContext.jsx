@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { moduleMap } from '../components/Sidebar';
 
 export const AuthContext = createContext();
 
-const ALL_MODULES = ['dashboard', 'user-management', 'reports', 'settings'];
+// const ALL_MODULES = ['dashboard', 'user-management', 'reports', 'settings'];
+const ALL_MODULES = Object.keys(moduleMap);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {

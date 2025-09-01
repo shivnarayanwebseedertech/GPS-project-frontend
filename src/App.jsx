@@ -7,6 +7,12 @@ import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import UserManagement from './pages/UserManagement.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import Reports from './pages/Reports.jsx';
+import TruckManagement from './pages/TruckManagement.jsx';
+import TripManagement from './pages/TripManagement.jsx';
+import Settings from './pages/Settings.jsx';
+import LiveCameraFeeds from './pages/LiveCameraFeeds.jsx';
+import RecipientManagement from './pages/RecipientManagement.jsx';
 
 function App() {
   const { modules } = useContext(AuthContext);
@@ -35,7 +41,7 @@ function App() {
           path="/reports"
           element={
             <Layout modules={modules}>
-              <h1>reports page</h1>
+              <Reports />
             </Layout>
           }
         />
@@ -43,7 +49,39 @@ function App() {
           path="/settings"
           element={
             <Layout modules={modules}>
-              <h1>settings page</h1>
+              <Settings />
+            </Layout>
+          }
+        />
+        <Route
+          path="/trucks"
+          element={
+            <Layout modules={modules}>
+              <TruckManagement />
+            </Layout>
+          }
+        />
+        <Route
+          path="/trips"
+          element={
+            <Layout modules={modules}>
+              <TripManagement />
+            </Layout>
+          }
+        />
+        <Route
+          path="/feeds"
+          element={
+            <Layout modules={modules}>
+              <LiveCameraFeeds />
+            </Layout>
+          }
+        />
+        <Route
+          path="/recipients"
+          element={
+            <Layout modules={modules}>
+              <RecipientManagement />
             </Layout>
           }
         />
