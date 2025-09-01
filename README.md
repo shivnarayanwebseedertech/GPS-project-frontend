@@ -103,3 +103,4 @@ src/
 - Keep all auth-related logic inside **AuthContext**.  
 
 ---
+# GPS-project-frontend
