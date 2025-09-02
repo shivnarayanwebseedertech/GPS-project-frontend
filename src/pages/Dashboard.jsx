@@ -7,9 +7,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
-  // Sample data - replace with actual API calls
+  // Sample data - removed activeTrucks count
   const [dashboardData, setDashboardData] = useState({
-    activeTrucks: 24,
     ongoingTrips: 12,
     alerts: 3,
     totalUsers: 45,
@@ -182,40 +181,8 @@ const Dashboard = () => {
         showBackButton={false}
       />
 
-      {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Active Trucks Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Active Trucks</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">
-                {dashboardData.activeTrucks}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-              <svg
-                className="w-6 h-6 text-indigo-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
-                />
-              </svg>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-              +2 today
-            </span>
-          </div>
-        </div>
-
+      {/* Overview Cards - Removed Active Trucks Card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Ongoing Trips Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
@@ -281,7 +248,6 @@ const Dashboard = () => {
         </div>
 
         {/* Total Users Card */}
-        {/* Total Users Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -314,274 +280,105 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Map View */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200">
+      {/* Main Content Grid - Now 50/50 layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Active Vehicles Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-              Live Fleet Tracking
+              Active Vehicles
             </h3>
           </div>
           <div className="p-6">
-            {/* Map Placeholder */}
-            <div className="w-full h-96 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center">
-              <div className="text-center">
-                <svg
-                  className="w-16 h-16 text-gray-400 mx-auto mb-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <div className="space-y-3">
+              {activeTrucks.map((truck) => (
+                <div
+                  key={truck.id}
+                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1}
-                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                  />
-                </svg>
-                <p className="text-gray-600 font-medium">
-                  Interactive Map View
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  Real-time truck locations will appear here
-                </p>
-              </div>
-            </div>
-
-            {/* Active Trucks List */}
-            <div className="mt-6">
-              <h4 className="text-md font-medium text-gray-800 mb-4">
-                Active Vehicles
-              </h4>
-              <div className="space-y-3">
-                {activeTrucks.map((truck) => (
-                  <div
-                    key={truck.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-semibold">
-                        {truck.vehicleNo.slice(-2)}
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {truck.vehicleNo}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {truck.driver}
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-semibold">
+                      {truck.vehicleNo.slice(-2)}
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="text-sm font-medium text-gray-900">
-                          {truck.speed}
-                        </div>
-                        <div
-                          className={`text-xs font-medium ${
-                            truck.status === "Moving"
-                              ? "text-green-600"
-                              : "text-gray-500"
-                          }`}
-                        >
-                          {truck.status}
-                        </div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">
+                        {truck.vehicleNo}
                       </div>
-                      <button
-                        onClick={() => handleQuickAction("/trips")}
-                        className="px-3 py-1 text-xs font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
-                      >
-                        Track
-                      </button>
+                      <div className="text-sm text-gray-500">
+                        {truck.driver}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <div className="text-sm font-medium text-gray-900">
+                        {truck.speed}
+                      </div>
+                      <div
+                        className={`text-xs font-medium ${
+                          truck.status === "Moving"
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {truck.status}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleQuickAction("/trips")}
+                      className="px-3 py-1 text-xs font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
+                    >
+                      Track
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Quick Actions & Recent Activity */}
-        <div className="space-y-6">
-          {/* Quick Actions */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div className="px-6 py-4 border-b border-gray-200">
+        {/* Recent Activities */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                Quick Actions
+                Recent Activity
               </h3>
-            </div>
-            <div className="p-6">
-              <div className="space-y-3">
-                <button
-                  onClick={() => handleQuickAction("/trucks")}
-                  className="w-full flex items-center gap-3 p-4 text-left border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-indigo-200 transition-all duration-200"
-                >
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      Truck Management
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Manage fleet and drivers
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleQuickAction("/trips")}
-                  className="w-full flex items-center gap-3 p-4 text-left border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-indigo-200 transition-all duration-200"
-                >
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-green-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      Trip Management
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Plan and monitor trips
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleQuickAction("/feeds")}
-                  className="w-full flex items-center gap-3 p-4 text-left border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-indigo-200 transition-all duration-200"
-                >
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-purple-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      Live Camera Feeds
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Monitor truck cameras
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleQuickAction("/recipients")}
-                  className="w-full flex items-center gap-3 p-4 text-left border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-indigo-200 transition-all duration-200"
-                >
-                  <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-orange-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      Recipient Management
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Manage recipients
-                    </div>
-                  </div>
-                </button>
-              </div>
+              <button
+                onClick={() => handleQuickAction("/reports")}
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
+              >
+                View All
+              </button>
             </div>
           </div>
-
-          {/* Recent Activities */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                  Recent Activity
-                </h3>
-                <button
-                  onClick={() => handleQuickAction("/reports")}
-                  className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
-                >
-                  View All
-                </button>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-3">
-                    {getActivityIcon(activity.type)}
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-gray-900">
-                        {activity.type === "trip_started" &&
-                          `Trip started - ${activity.truck}`}
-                        {activity.type === "trip_completed" &&
-                          `Trip completed - ${activity.truck}`}
-                        {activity.type === "alert" &&
-                          `Alert - ${activity.truck}`}
-                        {activity.type === "user_added" && activity.user}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-0.5">
-                        {activity.driver && `Driver: ${activity.driver}`}
-                        {activity.message && ` • ${activity.message}`}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">
-                        {activity.time}
-                      </div>
+          <div className="p-6">
+            <div className="space-y-4">
+              {recentActivities.map((activity) => (
+                <div key={activity.id} className="flex items-start gap-3">
+                  {getActivityIcon(activity.type)}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-gray-900">
+                      {activity.type === "trip_started" &&
+                        `Trip started - ${activity.truck}`}
+                      {activity.type === "trip_completed" &&
+                        `Trip completed - ${activity.truck}`}
+                      {activity.type === "alert" &&
+                        `Alert - ${activity.truck}`}
+                      {activity.type === "user_added" && activity.user}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      {activity.driver && `Driver: ${activity.driver}`}
+                      {activity.message && ` • ${activity.message}`}
+                    </div>
+                    <div className="text-xs text-gray-400 mt-1">
+                      {activity.time}
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

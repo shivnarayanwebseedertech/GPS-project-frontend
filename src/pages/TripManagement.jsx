@@ -670,7 +670,7 @@ const TripManagement = () => {
                 {filteredTrips.map((trip) => (
                   <tr
                     key={trip.id}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="hover:bg-gray-50 transition-colors "
                   >
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">
                       {trip.tripId}

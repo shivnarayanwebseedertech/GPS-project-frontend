@@ -1,18 +1,19 @@
-import React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from './contexts/AuthContext.jsx';
-import { Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout.jsx';
-import Login from './pages/Login.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-import UserManagement from './pages/UserManagement.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
-import Reports from './pages/Reports.jsx';
-import TruckManagement from './pages/TruckManagement.jsx';
-import TripManagement from './pages/TripManagement.jsx';
-import Settings from './pages/Settings.jsx';
-import LiveCameraFeeds from './pages/LiveCameraFeeds.jsx';
-import RecipientManagement from './pages/RecipientManagement.jsx';
+import React from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./contexts/AuthContext.jsx";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout.jsx";
+import Login from "./pages/Login.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import UserManagement from "./pages/UserManagement.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Reports from "./pages/Reports.jsx";
+import TruckManagement from "./pages/TruckManagement.jsx";
+import TripManagement from "./pages/TripManagement.jsx";
+import Settings from "./pages/Settings.jsx";
+import LiveCameraFeeds from "./pages/LiveCameraFeeds.jsx";
+import RecipientManagement from "./pages/RecipientManagement.jsx";
+import TruckDetails from "./pages/TruckDetails.jsx";
 
 function App() {
   const { modules } = useContext(AuthContext);
@@ -85,6 +86,15 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/trucks/:truckId"
+          element={
+            <Layout modules={modules}>
+              <TruckDetails />
+            </Layout>
+          }
+        />
+
         {/* Add more routes here as needed */}
       </Route>
     </Routes>

@@ -90,6 +90,10 @@ const TruckManagement = () => {
     if (!showPanel) togglePanel();
   };
 
+  const handleRowClick = (truckId) => {
+    navigate(`/trucks/${truckId}`);
+  };
+
   const closePanel = () => {
     if (showPanel) togglePanel();
     setForm({
@@ -517,7 +521,8 @@ const TruckManagement = () => {
                 {filteredTrucks.map((truck) => (
                   <tr
                     key={truck.id}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => handleRowClick(truck.id)}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -564,19 +569,28 @@ const TruckManagement = () => {
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => handleEdit(truck)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click
+                            handleEdit(truck);
+                          }}
                           className="inline-flex items-center px-3 py-1 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => assignToTrip(truck.id)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click
+                            assignToTrip(truck.id);
+                          }}
                           className="inline-flex items-center px-3 py-1 text-sm border border-indigo-300 text-indigo-700 rounded-md hover:bg-indigo-50 transition-colors"
                         >
                           Assign Trip
                         </button>
                         <button
-                          onClick={() => handleDelete(truck.id)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click
+                            handleDelete(truck.id);
+                          }}
                           className="inline-flex items-center px-3 py-1 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50 transition-colors"
                         >
                           Delete
