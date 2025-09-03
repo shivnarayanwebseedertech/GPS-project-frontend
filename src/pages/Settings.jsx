@@ -1,51 +1,52 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
-import PageHeader from '../components/PageHeader';
-import LoadingSpinner from '../components/LoadingSpinner';
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import PageHeader from "../components/PageHeader";
+import LoadingSpinner from "../components/LoadingSpinner";
+import PasswordChangeForm from "../components/PasswordChangeForm";
 
 const Settings = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState("general");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [settings, setSettings] = useState({
     // General Settings
-    systemName: 'GPS Fleet Tracker',
-    companyName: 'Fleet Management Co.',
-    timezone: 'Asia/Kolkata',
-    language: 'en',
-    
+    systemName: "GPS Fleet Tracker",
+    companyName: "Fleet Management Co.",
+    timezone: "Asia/Kolkata",
+    language: "en",
+
     // Notification Settings
     emailNotifications: true,
     smsNotifications: false,
-    alertEmail: 'admin@company.com',
+    alertEmail: "admin@company.com",
     notificationSound: true,
-    
+
     // Alert Thresholds
     speedThreshold: 80, // km/h
     idleThreshold: 15, // minutes
     geofenceAlerts: true,
     maintenanceAlerts: true,
-    
+
     // Map Settings
-    mapProvider: 'google',
+    mapProvider: "google",
     defaultZoom: 13,
     trafficLayer: true,
     satelliteView: false,
-    
+
     // Data Retention
     gpsDataRetention: 90, // days
     videoDataRetention: 7, // days
     reportDataRetention: 365, // days
-    
+
     // Security Settings
     sessionTimeout: 30, // minutes
     passwordExpiry: 90, // days
     twoFactorAuth: false,
-    apiAccess: true
+    apiAccess: true,
   });
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const Settings = () => {
   }, []);
 
   const handleChange = (key, value) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => ({ ...prev, [key]: value }));
     setSaved(false);
   };
 
@@ -67,32 +68,36 @@ const Settings = () => {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Settings saved:', settings);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log("Settings saved:", settings);
       setSaved(true);
     } catch (err) {
-      console.error('Failed to save settings:', err);
+      console.error("Failed to save settings:", err);
     } finally {
       setSaving(false);
     }
   };
 
   const resetToDefaults = () => {
-    if (window.confirm('Are you sure you want to reset all settings to default values?')) {
+    if (
+      window.confirm(
+        "Are you sure you want to reset all settings to default values?"
+      )
+    ) {
       setSettings({
-        systemName: 'GPS Fleet Tracker',
-        companyName: 'Fleet Management Co.',
-        timezone: 'Asia/Kolkata',
-        language: 'en',
+        systemName: "GPS Fleet Tracker",
+        companyName: "Fleet Management Co.",
+        timezone: "Asia/Kolkata",
+        language: "en",
         emailNotifications: true,
         smsNotifications: false,
-        alertEmail: 'admin@company.com',
+        alertEmail: "admin@company.com",
         notificationSound: true,
         speedThreshold: 80,
         idleThreshold: 15,
         geofenceAlerts: true,
         maintenanceAlerts: true,
-        mapProvider: 'google',
+        mapProvider: "google",
         defaultZoom: 13,
         trafficLayer: true,
         satelliteView: false,
@@ -102,19 +107,49 @@ const Settings = () => {
         sessionTimeout: 30,
         passwordExpiry: 90,
         twoFactorAuth: false,
-        apiAccess: true
+        apiAccess: true,
       });
       setSaved(false);
     }
   };
 
   const tabs = [
-    { id: 'general', name: 'General', shortName: 'General', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' },
-    { id: 'notifications', name: 'Notifications', shortName: 'Alerts', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9' },
-    { id: 'alerts', name: 'Alert Thresholds', shortName: 'Limits', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z' },
-    { id: 'maps', name: 'Maps & Location', shortName: 'Maps', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7' },
-    { id: 'data', name: 'Data & Storage', shortName: 'Storage', icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4' },
-    { id: 'security', name: 'Security & Privacy', shortName: 'Security', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' }
+    {
+      id: "general",
+      name: "General",
+      shortName: "General",
+      icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
+    },
+    {
+      id: "notifications",
+      name: "Notifications",
+      shortName: "Alerts",
+      icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9",
+    },
+    {
+      id: "alerts",
+      name: "Alert Thresholds",
+      shortName: "Limits",
+      icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z",
+    },
+    {
+      id: "maps",
+      name: "Maps & Location",
+      shortName: "Maps",
+      icon: "M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7",
+    },
+    {
+      id: "data",
+      name: "Data & Storage",
+      shortName: "Storage",
+      icon: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4",
+    },
+    {
+      id: "security",
+      name: "Security & Privacy",
+      shortName: "Security",
+      icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+    },
   ];
 
   if (loading) {
@@ -142,21 +177,40 @@ const Settings = () => {
             className="w-full flex items-center justify-between p-4 text-left"
           >
             <div className="flex items-center gap-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tabs.find(tab => tab.id === activeTab)?.icon} />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={tabs.find((tab) => tab.id === activeTab)?.icon}
+                />
               </svg>
               <span className="font-medium text-gray-900">
-                {tabs.find(tab => tab.id === activeTab)?.shortName}
+                {tabs.find((tab) => tab.id === activeTab)?.shortName}
               </span>
             </div>
-            <svg 
-              className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${mobileMenuOpen ? 'rotate-180' : ''}`} 
-              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            <svg
+              className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
+                mobileMenuOpen ? "rotate-180" : ""
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </button>
-          
+
           {mobileMenuOpen && (
             <div className="border-t border-gray-200">
               {tabs.map((tab) => (
@@ -168,12 +222,22 @@ const Settings = () => {
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-indigo-50 text-indigo-600 border-r-2 border-indigo-600'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? "bg-indigo-50 text-indigo-600 border-r-2 border-indigo-600"
+                      : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d={tab.icon}
+                    />
                   </svg>
                   <span className="font-medium">{tab.shortName}</span>
                 </button>
@@ -191,12 +255,22 @@ const Settings = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 py-4 px-3 lg:px-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
                   activeTab === tab.id
-                    ? 'border-indigo-500 text-indigo-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? "border-indigo-500 text-indigo-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />
+                <svg
+                  className="w-4 h-4 sm:w-5 sm:h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={tab.icon}
+                  />
                 </svg>
                 <span className="hidden sm:inline">{tab.name}</span>
                 <span className="sm:hidden">{tab.shortName}</span>
@@ -208,10 +282,12 @@ const Settings = () => {
         {/* Tab Content */}
         <form onSubmit={handleSubmit} className="p-4 sm:p-6">
           {/* General Settings */}
-          {activeTab === 'general' && (
+          {activeTab === "general" && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">General Settings</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900">
+                General Settings
+              </h3>
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -220,7 +296,7 @@ const Settings = () => {
                   <input
                     type="text"
                     value={settings.systemName}
-                    onChange={(e) => handleChange('systemName', e.target.value)}
+                    onChange={(e) => handleChange("systemName", e.target.value)}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
                 </div>
@@ -232,7 +308,9 @@ const Settings = () => {
                   <input
                     type="text"
                     value={settings.companyName}
-                    onChange={(e) => handleChange('companyName', e.target.value)}
+                    onChange={(e) =>
+                      handleChange("companyName", e.target.value)
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
                 </div>
@@ -243,12 +321,14 @@ const Settings = () => {
                   </label>
                   <select
                     value={settings.timezone}
-                    onChange={(e) => handleChange('timezone', e.target.value)}
+                    onChange={(e) => handleChange("timezone", e.target.value)}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   >
                     <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
                     <option value="UTC">UTC</option>
-                    <option value="America/New_York">America/New_York (EST)</option>
+                    <option value="America/New_York">
+                      America/New_York (EST)
+                    </option>
                     <option value="Europe/London">Europe/London (GMT)</option>
                     <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
                   </select>
@@ -274,21 +354,29 @@ const Settings = () => {
           )}
 
           {/* Notification Settings */}
-          {activeTab === 'notifications' && (
+          {activeTab === "notifications" && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Notification Settings</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900">
+                Notification Settings
+              </h3>
+
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">Email Notifications</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Receive alerts via email</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      Email Notifications
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Receive alerts via email
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.emailNotifications}
-                      onChange={(e) => handleChange('emailNotifications', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("emailNotifications", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -297,14 +385,20 @@ const Settings = () => {
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">SMS Notifications</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Receive alerts via SMS</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      SMS Notifications
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Receive alerts via SMS
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.smsNotifications}
-                      onChange={(e) => handleChange('smsNotifications', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("smsNotifications", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -318,7 +412,7 @@ const Settings = () => {
                   <input
                     type="email"
                     value={settings.alertEmail}
-                    onChange={(e) => handleChange('alertEmail', e.target.value)}
+                    onChange={(e) => handleChange("alertEmail", e.target.value)}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                     placeholder="alerts@company.com"
                   />
@@ -328,10 +422,12 @@ const Settings = () => {
           )}
 
           {/* Alert Settings */}
-          {activeTab === 'alerts' && (
+          {activeTab === "alerts" && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Alert Thresholds</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900">
+                Alert Thresholds
+              </h3>
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -342,10 +438,14 @@ const Settings = () => {
                     min="10"
                     max="200"
                     value={settings.speedThreshold}
-                    onChange={(e) => handleChange('speedThreshold', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange("speedThreshold", parseInt(e.target.value))
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Alert when vehicle exceeds this speed</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Alert when vehicle exceeds this speed
+                  </p>
                 </div>
 
                 <div>
@@ -357,24 +457,34 @@ const Settings = () => {
                     min="1"
                     max="120"
                     value={settings.idleThreshold}
-                    onChange={(e) => handleChange('idleThreshold', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange("idleThreshold", parseInt(e.target.value))
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Alert when vehicle is idle for this duration</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Alert when vehicle is idle for this duration
+                  </p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">Geofence Alerts</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Alert when vehicles enter/exit geofences</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      Geofence Alerts
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Alert when vehicles enter/exit geofences
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.geofenceAlerts}
-                      onChange={(e) => handleChange('geofenceAlerts', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("geofenceAlerts", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -383,14 +493,20 @@ const Settings = () => {
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">Maintenance Alerts</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Alert for scheduled maintenance</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      Maintenance Alerts
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Alert for scheduled maintenance
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.maintenanceAlerts}
-                      onChange={(e) => handleChange('maintenanceAlerts', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("maintenanceAlerts", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -401,10 +517,12 @@ const Settings = () => {
           )}
 
           {/* Map Settings */}
-          {activeTab === 'maps' && (
+          {activeTab === "maps" && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Map Configuration</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900">
+                Map Configuration
+              </h3>
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -412,7 +530,9 @@ const Settings = () => {
                   </label>
                   <select
                     value={settings.mapProvider}
-                    onChange={(e) => handleChange('mapProvider', e.target.value)}
+                    onChange={(e) =>
+                      handleChange("mapProvider", e.target.value)
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   >
                     <option value="google">Google Maps</option>
@@ -430,7 +550,9 @@ const Settings = () => {
                     min="1"
                     max="20"
                     value={settings.defaultZoom}
-                    onChange={(e) => handleChange('defaultZoom', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange("defaultZoom", parseInt(e.target.value))
+                    }
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                   />
                   <div className="flex justify-between text-xs sm:text-sm text-gray-500 mt-1">
@@ -444,14 +566,20 @@ const Settings = () => {
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">Traffic Layer</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Show real-time traffic information</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      Traffic Layer
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Show real-time traffic information
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.trafficLayer}
-                      onChange={(e) => handleChange('trafficLayer', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("trafficLayer", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -460,14 +588,20 @@ const Settings = () => {
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">Satellite View</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Default to satellite imagery</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      Satellite View
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Default to satellite imagery
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.satelliteView}
-                      onChange={(e) => handleChange('satelliteView', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("satelliteView", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -478,10 +612,12 @@ const Settings = () => {
           )}
 
           {/* Data & Storage Settings */}
-          {activeTab === 'data' && (
+          {activeTab === "data" && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Data Retention Policies</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900">
+                Data Retention Policies
+              </h3>
+
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -492,10 +628,14 @@ const Settings = () => {
                     min="1"
                     max="365"
                     value={settings.gpsDataRetention}
-                    onChange={(e) => handleChange('gpsDataRetention', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange("gpsDataRetention", parseInt(e.target.value))
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">How long to keep GPS tracking data</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    How long to keep GPS tracking data
+                  </p>
                 </div>
 
                 <div>
@@ -507,10 +647,17 @@ const Settings = () => {
                     min="1"
                     max="30"
                     value={settings.videoDataRetention}
-                    onChange={(e) => handleChange('videoDataRetention', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange(
+                        "videoDataRetention",
+                        parseInt(e.target.value)
+                      )
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">How long to keep camera recordings</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    How long to keep camera recordings
+                  </p>
                 </div>
 
                 <div>
@@ -522,20 +669,33 @@ const Settings = () => {
                     min="30"
                     max="1095"
                     value={settings.reportDataRetention}
-                    onChange={(e) => handleChange('reportDataRetention', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange(
+                        "reportDataRetention",
+                        parseInt(e.target.value)
+                      )
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">How long to keep generated reports</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    How long to keep generated reports
+                  </p>
                 </div>
               </div>
             </div>
           )}
 
           {/* Security Settings */}
-          {activeTab === 'security' && (
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Security Configuration</h3>
-              
+          {activeTab === "security" && (
+            <div className="space-y-8">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Security Configuration
+              </h3>
+
+              {/* Password Change Component */}
+              <PasswordChangeForm />
+
+              {/* Other Security Settings */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -546,7 +706,9 @@ const Settings = () => {
                     min="5"
                     max="480"
                     value={settings.sessionTimeout}
-                    onChange={(e) => handleChange('sessionTimeout', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange("sessionTimeout", parseInt(e.target.value))
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
                 </div>
@@ -560,7 +722,9 @@ const Settings = () => {
                     min="30"
                     max="365"
                     value={settings.passwordExpiry}
-                    onChange={(e) => handleChange('passwordExpiry', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleChange("passwordExpiry", parseInt(e.target.value))
+                    }
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm sm:text-base"
                   />
                 </div>
@@ -569,14 +733,20 @@ const Settings = () => {
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl gap-3 sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900">API Access</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Allow third-party API access</p>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      API Access
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Allow third-party API access
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={settings.apiAccess}
-                      onChange={(e) => handleChange('apiAccess', e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("apiAccess", e.target.checked)
+                      }
                       className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -599,8 +769,18 @@ const Settings = () => {
             <div className="order-1 sm:order-2 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               {saved && (
                 <div className="flex items-center justify-center sm:justify-start gap-2 text-green-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-sm">Settings saved successfully!</span>
                 </div>
@@ -617,7 +797,7 @@ const Settings = () => {
                     Saving...
                   </>
                 ) : (
-                  'Save Settings'
+                  "Save Settings"
                 )}
               </button>
             </div>
