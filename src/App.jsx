@@ -14,6 +14,7 @@ import Settings from "./pages/Settings.jsx";
 import LiveCameraFeeds from "./pages/LiveCameraFeeds.jsx";
 import RecipientManagement from "./pages/RecipientManagement.jsx";
 import TruckDetails from "./pages/TruckDetails.jsx";
+import AlertsNotifications from "./pages/AlertsNotifications.jsx";
 
 function App() {
   const { modules } = useContext(AuthContext);
@@ -91,6 +92,14 @@ function App() {
           element={
             <Layout modules={modules}>
               <TruckDetails />
+            </Layout>
+          }
+        />
+        <Route
+          path="/alerts-notifications"
+          element={
+            <Layout modules={modules}>
+              <AlertsNotifications />
             </Layout>
           }
         />
