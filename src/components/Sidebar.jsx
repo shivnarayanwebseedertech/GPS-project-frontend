@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom"; // Add useLocation
 import logo from "../assets/webseederlogo.png";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -12,6 +12,7 @@ export const moduleMap = {
 
 const Sidebar = ({ modules }) => {
   const navigate = useNavigate();
+  const location = useLocation(); // Add location hook
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useContext(AuthContext);
 
@@ -171,6 +172,11 @@ const Sidebar = ({ modules }) => {
     },
   ];
 
+  // Function to check if quick action is active
+  const isActiveQuickAction = (path) => {
+    return location.pathname === path || location.pathname.startsWith(path + '/');
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -265,7 +271,11 @@ const Sidebar = ({ modules }) => {
               navigate("/alerts-notifications");
               closeMobileMenu(); // Close mobile menu if open
             }}
-            className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r from-red-50 to-blue-50 text-gray-700 rounded-lg hover:from-red-100 hover:to-blue-100 transition-all duration-200 relative"
+            className={`w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg transition-all duration-200 relative ${
+              location.pathname === '/alerts-notifications'
+                ? "bg-indigo-50 text-indigo-700 border-r-2 border-indigo-700"
+                : "bg-gradient-to-r from-red-50 to-blue-50 text-gray-700 hover:from-red-100 hover:to-blue-100"
+            }`}
           >
             <div className="flex items-center gap-1 sm:gap-2">
               <svg
@@ -317,7 +327,7 @@ const Sidebar = ({ modules }) => {
             })}
           </ul>
 
-          {/* Quick Actions Section */}
+          {/* Quick Actions Section with Active States */}
           <div className="mt-8 pt-6 border-t border-gray-200">
             <h3 className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Quick Actions
@@ -327,9 +337,21 @@ const Sidebar = ({ modules }) => {
                 <li key={label}>
                   <button
                     onClick={() => handleQuickAction(path)}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-indigo-600 transition-all duration-200"
+                    className={`w-full group flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      isActiveQuickAction(path)
+                        ? "bg-indigo-50 text-indigo-700 border-r-2 border-indigo-700"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                    }`}
                   >
-                    <div className="flex-shrink-0">{icon}</div>
+                    <div className={`flex-shrink-0 ${
+                      isActiveQuickAction(path) ? 'text-indigo-600' : ''
+                    }`}>
+                      {React.cloneElement(icon, {
+                        className: `w-4 h-4 lg:w-5 lg:h-5 ${
+                          isActiveQuickAction(path) ? 'text-indigo-600' : icon.props.className
+                        }`
+                      })}
+                    </div>
                     <span className="truncate">{label}</span>
                   </button>
                 </li>
@@ -406,22 +428,13 @@ const Sidebar = ({ modules }) => {
               navigate("/alerts-notifications");
               closeMobileMenu();
             }}
-            className="w-full flex items-center gap-2 p-2.5 bg-gradient-to-r from-red-50 to-blue-50 text-gray-700 rounded-lg hover:from-red-100 hover:to-blue-100 transition-all duration-200 relative"
+            className={`w-full flex items-center gap-2 p-2.5 rounded-lg transition-all duration-200 relative ${
+              location.pathname === '/alerts-notifications'
+                ? "bg-indigo-50 text-indigo-700 border-r-2 border-indigo-700"
+                : "bg-gradient-to-r from-red-50 to-blue-50 text-gray-700 hover:from-red-100 hover:to-blue-100"
+            }`}
           >
             <div className="flex items-center gap-1">
-              {/* <svg
-                className="w-4 h-4 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-                />
-              </svg> */}
               <svg
                 className="w-4 h-4 text-blue-600"
                 fill="none"
@@ -473,7 +486,7 @@ const Sidebar = ({ modules }) => {
             })}
           </ul>
 
-          {/* Quick Actions Section - Mobile */}
+          {/* Quick Actions Section - Mobile with Active States */}
           <div className="mt-6 pt-4 border-t border-gray-200">
             <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
               Quick Actions
@@ -483,9 +496,21 @@ const Sidebar = ({ modules }) => {
                 <li key={label}>
                   <button
                     onClick={() => handleQuickAction(path)}
-                    className="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-indigo-600 transition-all duration-200"
+                    className={`w-full group flex items-center gap-2 px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      isActiveQuickAction(path)
+                        ? "bg-indigo-50 text-indigo-700 border-r-2 border-indigo-700"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                    }`}
                   >
-                    <div className="flex-shrink-0">{icon}</div>
+                    <div className={`flex-shrink-0 ${
+                      isActiveQuickAction(path) ? 'text-indigo-600' : ''
+                    }`}>
+                      {React.cloneElement(icon, {
+                        className: `w-4 h-4 lg:w-5 lg:h-5 ${
+                          isActiveQuickAction(path) ? 'text-indigo-600' : icon.props.className
+                        }`
+                      })}
+                    </div>
                     <span className="truncate text-sm">{label}</span>
                   </button>
                 </li>

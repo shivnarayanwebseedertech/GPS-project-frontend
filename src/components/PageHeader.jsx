@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 const PageHeader = ({
   title,
   subtitle,
+  titleIcon,
+  iconBgColor = "bg-indigo-500", // Default to match your theme
   showBackButton = true,
   backTo = "/",
   backLabel = "Back",
@@ -43,14 +45,29 @@ const PageHeader = ({
         )}
 
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="text-gray-600 mt-1 text-sm sm:text-base leading-relaxed max-w-none sm:max-w-lg">
-              {subtitle}
-            </p>
-          )}
+          <div className="flex items-center gap-3 sm:gap-4">
+            {titleIcon && (
+              <div className={`flex-shrink-0 p-3 sm:p-4 ${iconBgColor} rounded-xl sm:rounded-2xl shadow-lg`}>
+                <svg
+                  className="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d={titleIcon} />
+                </svg>
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight mb-1">
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

@@ -176,8 +176,10 @@ const Dashboard = () => {
     <div className="space-y-6">
       {/* Header */}
       <PageHeader
-        title="Admin Dashboard"
-        subtitle="Welcome back, Admin! Monitor and manage your fleet operations"
+        title="Dashboard"
+        titleIcon="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
+        iconBgColor="bg-indigo-600"
+        subtitle="Overview of your system"
         showBackButton={false}
       />
 
@@ -365,8 +367,7 @@ const Dashboard = () => {
                         `Trip started - ${activity.truck}`}
                       {activity.type === "trip_completed" &&
                         `Trip completed - ${activity.truck}`}
-                      {activity.type === "alert" &&
-                        `Alert - ${activity.truck}`}
+                      {activity.type === "alert" && `Alert - ${activity.truck}`}
                       {activity.type === "user_added" && activity.user}
                     </div>
                     <div className="text-xs text-gray-500 mt-0.5">

@@ -15,6 +15,8 @@ import LiveCameraFeeds from "./pages/LiveCameraFeeds.jsx";
 import RecipientManagement from "./pages/RecipientManagement.jsx";
 import TruckDetails from "./pages/TruckDetails.jsx";
 import AlertsNotifications from "./pages/AlertsNotifications.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import TripDetails from "./pages/TripDetails.jsx";
 
 function App() {
   const { modules } = useContext(AuthContext);
@@ -22,6 +24,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route element={<ProtectedRoute />}>
         <Route
           path="/"
@@ -71,6 +74,15 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/trips/:tripId"
+          element={
+            <Layout modules={modules}>
+              <TripDetails />
+            </Layout>
+          }
+        />
+
         <Route
           path="/feeds"
           element={

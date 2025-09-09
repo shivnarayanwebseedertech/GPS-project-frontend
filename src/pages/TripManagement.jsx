@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
 import PageHeader from "../components/PageHeader";
-import useToggle from '../hooks/useToggle';
-import useDebounce from '../hooks/useDebounce';
+import useToggle from "../hooks/useToggle";
+import useDebounce from "../hooks/useDebounce";
 
 const TripManagement = () => {
   const navigate = useNavigate();
@@ -22,6 +22,9 @@ const TripManagement = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+  const handleRowClick = (tripId) => {
+    navigate(`/trips/${tripId}`);
+  };
   const [form, setForm] = useState({
     truckId: "",
     startLocation: {
@@ -149,8 +152,12 @@ const TripManagement = () => {
   const filteredTrips = trips.filter((trip) => {
     const matchesSearch =
       trip.tripId.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-      trip.truck.vehicleNo.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-      trip.truck.driverName.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+      trip.truck.vehicleNo
+        .toLowerCase()
+        .includes(debouncedSearchTerm.toLowerCase()) ||
+      trip.truck.driverName
+        .toLowerCase()
+        .includes(debouncedSearchTerm.toLowerCase());
     const matchesStatus =
       statusFilter === "all" || trip.status === statusFilter;
     return matchesSearch && matchesStatus;
@@ -670,7 +677,8 @@ const TripManagement = () => {
                 {filteredTrips.map((trip) => (
                   <tr
                     key={trip.id}
-                    className="hover:bg-gray-50 transition-colors "
+                    className="hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => handleRowClick(trip.id)}
                   >
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">
                       {trip.tripId}
